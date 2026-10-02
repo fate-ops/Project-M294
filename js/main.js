@@ -5,6 +5,24 @@ const taskList = document.getElementById("task-list");
 
 const addForm = document.getElementById("create-task");
 const textarea = document.getElementById("title");
+const logoutBtn = document.getElementById("logout");
+
+setLoggedIn(false);
+
+function setLoggedIn(isLoggedIn) {
+  loginForm.hidden = isLoggedIn;
+  addForm.hidden = !isLoggedIn;
+  taskList.hidden = !isLoggedIn;
+  logoutBtn.hidden = !isLoggedIn;
+}
+
+logoutBtn.addEventListener("click", () => {
+  sessionStorage.removeItem("token");
+  taskList.replaceChildren();
+  addForm.reset();
+  loginForm.reset();
+  setLoggedIn(false);
+});
 
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -15,19 +33,24 @@ loginForm.addEventListener("submit", async (e) => {
 
     const res = await fetch("http://localhost/auth/jwt/sign", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         email: mailValue,
         password: passValue,
       }),
     });
 
-    if (!res.ok) throw Error(`Anmeldung fehlgeschlagen: HTTP ${res.status}`);
+    if (!res.ok) {
+      throw Error(`Anmeldung fehlgeschlagen: HTTP ${res.status}`);
+    }
 
     const data = await res.json();
     sessionStorage.setItem("token", data.token);
 
     loginForm.reset();
+    setLoggedIn(true);
     await loadTasks();
   } catch (error) {
     alert(error.message);
@@ -59,7 +82,9 @@ addForm.addEventListener("submit", async (e) => {
       }),
     });
 
-    if (!res.ok) throw Error(`Erstellen fehlgeschlagen: HTTP ${res.status}`);
+    if (!res.ok) {
+      throw Error(`Erstellen fehlgeschlagen: HTTP ${res.status}`);
+    }
 
     addForm.reset();
     await loadTasks();
@@ -72,10 +97,14 @@ async function loadTasks() {
   const token = sessionStorage.getItem("token");
 
   const res = await fetch("http://localhost/auth/jwt/tasks", {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 
-  if (!res.ok) throw Error(`Laden fehlgeschlagen: HTTP ${res.status}`);
+  if (!res.ok) {
+    throw Error(`Laden fehlgeschlagen: HTTP ${res.status}`);
+  }
 
   const tasks = await res.json();
 
@@ -94,9 +123,9 @@ async function loadTasks() {
     const delBtn = document.createElement("button");
     delBtn.type = "button";
     delBtn.innerText = "Löschen";
+    delBtn.classList.add("delete-button");
 
     editBtn.addEventListener("click", () => {
-      // Kein zweites Formular für dieselbe Aufgabe öffnen.
       if (taskElement.querySelector("form")) return;
 
       const editForm = document.createElement("form");
@@ -185,10 +214,14 @@ async function loadTasks() {
 
         const res = await fetch(`http://localhost/auth/jwt/task/${task.id}`, {
           method: "DELETE",
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
 
-        if (!res.ok) throw Error(`Löschen fehlgeschlagen: HTTP ${res.status}`);
+        if (!res.ok) {
+          throw Error(`Löschen fehlgeschlagen: HTTP ${res.status}`);
+        }
 
         await loadTasks();
       } catch (error) {

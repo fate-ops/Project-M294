@@ -1,0 +1,208 @@
+:root {
+  color-scheme: dark;
+  font-family: "Segoe UI", sans-serif;
+  background: #101018;
+  color: #ededf5;
+  --accent: #a78bfa;
+  --border: #353547;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  max-width: 850px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 64px 24px;
+  background: radial-gradient(ellipse at top, #28203f 0, transparent 65%);
+}
+
+h1 {
+  margin: 0 0 36px;
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  letter-spacing: -1px;
+}
+
+h4 {
+  margin: 0 0 24px;
+  font-size: 1.3rem;
+}
+
+#login,
+#create-task,
+#task-list > li {
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: #1b1b28;
+  box-shadow: 0 12px 32px #00000020;
+}
+
+#login {
+  max-width: 460px;
+}
+
+#create-task {
+  margin-bottom: 24px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #d8d8e8;
+}
+
+input:not([type="checkbox"]),
+textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #11111c;
+  color: #ededf5;
+  font: inherit;
+}
+
+textarea {
+  display: block;
+  min-height: 90px;
+  resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #8e8ea8;
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--accent);
+  outline: 3px solid #a78bfa25;
+}
+
+button {
+  padding: 11px 17px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #171026;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 150ms,
+    transform 150ms;
+}
+
+button:hover {
+  background: #bca7ff;
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button:focus-visible {
+  outline: 3px solid #ddd0ff;
+  outline-offset: 3px;
+}
+
+#task-list {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#task-list > li {
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+#task-list > li > button {
+  margin: 8px 0 0 10px;
+  padding: 7px 12px;
+}
+
+#task-list .delete-button {
+  background: #40232e;
+  color: #ffb5c2;
+  border-color: #71384a;
+}
+
+#task-list .delete-button:hover {
+  background: #5b2c3c;
+}
+
+#task-list form {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+#task-list form label:first-child,
+#task-list form textarea {
+  grid-column: 1 / -1;
+}
+
+#task-list form label {
+  margin: 0;
+  align-self: center;
+}
+
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--accent);
+  align-self: center;
+}
+
+#task-list form button[type="button"] {
+  background: #303043;
+  color: #ededf5;
+}
+
+#task-list form button[type="button"]:hover {
+  background: #414158;
+}
+
+@media (max-width: 550px) {
+  body {
+    padding: 32px 16px;
+  }
+
+  #login,
+  #create-task,
+  #task-list > li {
+    padding: 18px;
+  }
+
+  #task-list > li > button {
+    margin-left: 0;
+    margin-right: 8px;
+  }
+}
+
+#logout {
+  display: block;
+  margin-bottom: 24px;
+  background: #303043;
+  color: #ededf5;
+}
+
+#logout:hover {
+  background: #414158;
+}
