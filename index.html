@@ -22,8 +22,16 @@
       <input type="password" id="passwd" required />
       <br />
       <button type="submit" id="sub">Bestätigen</button>
-
-      <ul id="task-list"></ul>
+      <br />
     </form>
+
+    <form name="create-task" id="create-task" method="post">
+      <label for="title">Aufgabe:</label>
+      <textarea id="title" required></textarea>
+      <br />
+      <button type="submit" id="submitTask">Hinzufügen</button>
+    </form>
+
+    <ul id="task-list"></ul>
   </body>
 </html>
